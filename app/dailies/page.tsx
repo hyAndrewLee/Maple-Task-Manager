@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import AddChecklistItemModal from '../components/addChecklistItemModal';
+import Countdown from '../components/countdown';
+import timeHelper from '@/app/helpers/time';
 
 type TaskType = {
 	name: string;
@@ -22,6 +24,7 @@ const Daiies: React.FC = () => {
 	return (
 		<div>
 			<div className='mx-40 mt-4 border'>
+				<Countdown endTime={new timeHelper().getNextThursdayMidnightUTC()} />
 				<button
 					onClick={() =>
 						modelStatus ? setModalStatus(false) : setModalStatus(true)
