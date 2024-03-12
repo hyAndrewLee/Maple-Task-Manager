@@ -1,8 +1,4 @@
-'use client';
-import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
-
-const Time = dynamic(() => import('./clockToLocaleTimeString'), { ssr: false });
 
 const Clock: React.FC = React.memo(() => {
 	const [currentTime, setCurrentTime] = useState(new Date());
@@ -19,7 +15,13 @@ const Clock: React.FC = React.memo(() => {
 
 	return (
 		<div>
-			<Time time={currentTime} />
+			<span suppressHydrationWarning={true}>
+				{currentTime.toLocaleTimeString(undefined, {
+					hour: 'numeric',
+					minute: '2-digit',
+					second: '2-digit',
+				})}
+			</span>
 		</div>
 	);
 });

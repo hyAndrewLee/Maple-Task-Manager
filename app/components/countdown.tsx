@@ -1,14 +1,14 @@
-'use client';
 import { useEffect, useState } from 'react';
 import timeHelper from '../helpers/time';
 
 type CountdownProp = {
 	endTime: Date;
+	style: string;
 };
 
-const Countdown: React.FC<CountdownProp> = ({ endTime }) => {
+const Countdown: React.FC<CountdownProp> = ({ endTime, style }) => {
 	const [remainingTime, setRemainingTime] = useState(
-		`${new timeHelper().getDuration(new Date(), endTime)}`
+		new timeHelper().getDuration(new Date(), endTime)
 	);
 
 	useEffect(() => {
@@ -24,9 +24,9 @@ const Countdown: React.FC<CountdownProp> = ({ endTime }) => {
 	}, []);
 
 	return (
-		<div className='border'>
+		<div className={style}>
 			<div>Reset In</div>
-			<div>{remainingTime}</div>
+			<div suppressHydrationWarning={true}>{remainingTime}</div>
 		</div>
 	);
 };

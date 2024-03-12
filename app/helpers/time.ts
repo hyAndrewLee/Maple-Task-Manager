@@ -1,5 +1,22 @@
+type FormatTimeReturnType = {
+	formattedDays: string;
+	formattedHours: string;
+	formattedMinutes: string;
+	formattedSeconds: string;
+};
+
 class timeHelper {
 	private today = new Date();
+
+	getNextDayMidnightUTC(): Date {
+		const tomorrow: Date = new Date(
+			this.today.getUTCFullYear(),
+			this.today.getUTCMonth(),
+			this.today.getUTCDate() + 1
+		); // Get tomorrow's date
+		tomorrow.setUTCHours(0, 0, 0, 0); // Set time to midnight UTC
+		return tomorrow;
+	}
 
 	getNextThursdayMidnightUTC(): Date {
 		const dayOfWeek: number = this.today.getUTCDay();
@@ -35,21 +52,54 @@ class timeHelper {
 		);
 
 		// Construct the duration string
-		let durationString = '';
-		if (days > 0) {
-			durationString += `${days}d `;
-		}
-		if (hours > 0) {
-			durationString += `${hours}h `;
-		}
-		if (minutes > 0) {
-			durationString += `${minutes}m `;
-		}
-		if (seconds > 0) {
-			durationString += `${seconds}s `;
+		const {
+			formattedDays,
+			formattedHours,
+			formattedMinutes,
+			formattedSeconds,
+		} = this.formatTime(days, hours, minutes, seconds);
+		const durationString =
+			formattedDays + formattedHours + formattedMinutes + formattedSeconds;
+
+		return durationString;
+	}
+
+	formatTime(
+		days: number,
+		hours: number,
+		minutes: number,
+		seconds: number
+	): FormatTimeReturnType {
+		const formattedTime: FormatTimeReturnType = {
+			formattedDays: ``,
+			formattedHours: '',
+			formattedMinutes: '',
+			formattedSeconds: '',
+		};
+
+		if (days) {
+			formattedTime.formattedDays = `${days}d `;
 		}
 
-		return durationString.trim();
+		if (hours > 9) {
+			formattedTime.formattedHours = `${hours}h `;
+		} else {
+			formattedTime.formattedHours = `0${hours}h `;
+		}
+
+		if (minutes > 9) {
+			formattedTime.formattedMinutes = `${minutes}m `;
+		} else {
+			formattedTime.formattedMinutes = `0${minutes}m `;
+		}
+
+		if (seconds > 9) {
+			formattedTime.formattedSeconds = `${seconds}s`;
+		} else {
+			formattedTime.formattedSeconds = `0${seconds}s`;
+		}
+
+		return formattedTime;
 	}
 }
 

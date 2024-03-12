@@ -1,5 +1,6 @@
 import Navbar from '@/app/components/navbar';
 import './globals.css';
+import { DAILIES } from '@/app/constants/defaults';
 
 export const metadata = {
 	title: 'Create Next App',

@@ -1,5 +1,4 @@
-import { Formik, useFormik } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { useFormik } from 'formik';
 
 type AddChecklistItemModalProps = {
 	toggleModelStatus: () => void;
