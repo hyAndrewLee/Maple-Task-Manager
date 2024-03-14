@@ -1,17 +1,25 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import AddChecklistItemModal from '../components/addChecklistItemModal';
-import CharacterSelection from './characterNameSelection';
+import CharacterSelection from '../components/characterNameSelection';
 import TaskSection from '../components/taskSection/taskSection';
-import { DEFAULTUSERDATA, CharacterData } from '@/app/constants/defaults';
-import timeHelper from '@/app/helpers/time';
+import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
 import Countdown from '@/app/components/countdown';
+import timeHelper from '../helpers/time';
+import { uncheckAll } from '../helpers/checkboxToggle';
 
 const Daiies: React.FC = () => {
+	const [loading, setLoading] = useState(true);
 	const [modelStatus, setModalStatus] = useState(false);
-	const [charactersData, setCharactersData] = useState<CharacterData[]>(
-		DEFAULTUSERDATA.characters
-	);
+	const [userData, setUserData] = useState<UserData>(DEFAULTUSERDATA);
+
+	const time = new timeHelper();
+
+	const updateUserData = (updatedData: UserData) => {
+		localStorage.setItem('userData', JSON.stringify(updatedData));
+
+		setUserData(updatedData);
+	};
 
 	useEffect(() => {
 		const userData = localStorage.getItem('userData');
@@ -20,12 +28,24 @@ const Daiies: React.FC = () => {
 			localStorage.setItem('userData', JSON.stringify(DEFAULTUSERDATA));
 			return;
 		}
+		const parsedUserData: UserData = JSON.parse(userData);
 
-		setCharactersData(JSON.parse(userData).characters);
+		if (
+			time.getPreviousDayMidnightUTC().getTime() >=
+			new Date(parsedUserData.lastChecked).getTime()
+		) {
+			const selectedChar = parsedUserData.characters.find(
+				(character) => character.selected
+			)!;
+			uncheckAll(selectedChar.id, 'dailies', updateUserData);
+		}
+
+		setUserData(parsedUserData);
+		setLoading(false);
 	}, []);
 
 	const characterSelectionComponentArray = useMemo(() => {
-		return charactersData.map((character, idx) => {
+		return userData.characters.map((character, idx) => {
 			return (
 				<CharacterSelection
 					key={`character-${idx}`}
@@ -34,57 +54,54 @@ const Daiies: React.FC = () => {
 				/>
 			);
 		});
-	}, [charactersData]);
+	}, [userData]);
 
-	const selectedCharacterTasks = useMemo(() => {
-		for (const character of charactersData) {
-			if (character.selected) {
-				return character.dailies;
-			}
-		}
-	}, [charactersData]);
-
-	const selectedCharacterName = useMemo(() => {
-		return charactersData.map((character) =>
-			character.selected ? (
-				<u className='mt-2'>{character.name}'s Dailies</u>
-			) : null
-		);
-	}, [charactersData]);
+	const selectedCharacterData = useMemo(() => {
+		return userData.characters.find((character) => character.selected)!;
+	}, [userData]);
 
 	const toggleModelStatus = () => {
 		setModalStatus(!modelStatus);
 	};
-
-	return (
-		<div className='mx-40 mt-4 border h-96'>
-			<div>
-				<div className='flex justify-between '>
-					<Countdown
-						style='border flex flex-col items-center w-28 mt-2 ml-2'
-						endTime={new timeHelper().getNextDayMidnightUTC()}
+	return loading ? (
+		<></>
+	) : (
+		<div className='flex justify-center my-4'>
+			<div className='flex flex-col border max-w-screen-xl min-h-task-content-box px-4'>
+				<div className='flex flex-col w-full'>
+					<div className='flex justify-between'>
+						<Countdown
+							style='border flex flex-col items-center w-28 mt-2 ml-2'
+							endTime={time.getNextDayMidnightUTC()}
+							dataType={selectedCharacterData.dailies.taskGroupType}
+							id={selectedCharacterData.id}
+							lastUpdated={userData.lastChecked}
+							updateUserData={updateUserData}
+						/>
+						<u className='mt-2'>{selectedCharacterData.name}'s Dailies</u>
+						<button
+							className='border h-8 w-28 mt-2 mr-2'
+							onClick={() =>
+								modelStatus ? setModalStatus(false) : setModalStatus(true)
+							}
+						>
+							Add/Edit Tasks
+						</button>
+					</div>
+					<div className='flex justify-center content-between'>
+						{...characterSelectionComponentArray}
+					</div>
+					{modelStatus ? (
+						<AddChecklistItemModal toggleModelStatus={toggleModelStatus} />
+					) : null}
+				</div>
+				<div className='flex flex-wrap justify-center gap-8'>
+					<TaskSection
+						taskData={selectedCharacterData.dailies}
+						charId={selectedCharacterData.id}
+						updateData={updateUserData}
 					/>
-					{...selectedCharacterName}
-					<button
-						className='border h-8 w-28 mt-2 mr-2'
-						onClick={() =>
-							modelStatus ? setModalStatus(false) : setModalStatus(true)
-						}
-					>
-						Add/Edit Tasks
-					</button>
 				</div>
-				<div className='flex justify-center content-between'>
-					{...characterSelectionComponentArray}
-				</div>
-				{modelStatus ? (
-					<AddChecklistItemModal toggleModelStatus={toggleModelStatus} />
-				) : null}
-			</div>
-			<div className='mt-8'>
-				{selectedCharacterTasks ? (
-					<TaskSection taskData={selectedCharacterTasks} />
-				) : null}
 			</div>
 		</div>
 	);

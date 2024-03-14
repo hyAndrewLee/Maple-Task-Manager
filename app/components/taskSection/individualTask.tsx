@@ -1,50 +1,50 @@
-import { BaseTask } from '@/app/constants/defaults';
+import { BaseTask, TaskGroupType, UserData } from '@/app/constants/defaults';
+import { checkedBox } from '@/app/helpers/checkboxToggle';
 import Image from 'next/image';
 
-type IndividualTaskProp = {
+export type IndividualTaskProp = {
 	task: BaseTask;
+	groupName: string;
+	taskIdx: number;
+	charId: string;
+	taskType: TaskGroupType;
+	updateData: (updatedData: UserData) => void;
 };
 
-const IndividualTask: React.FC<IndividualTaskProp> = ({ task }) => {
-	const loadImage = () => {
-		const { image } = task;
-		// TODO: Create default image
-		const defaultImageSrc = 'https://example.com/default-image.jpg';
-
-		// Check if the URL contains an image extension
-		const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-		const isImage = imageExtensions.some((ext) => image?.endsWith(ext));
-
-		if (isImage && task.image) {
-			return (
-				<Image src={task.image} alt='Loaded Image' width={40} height={40} />
-			);
-		} else {
-			return (
-				<Image
-					src={defaultImageSrc}
-					alt='Default Image'
-					width={40}
-					height={40}
-				/>
-			);
-		}
+const IndividualTask: React.FC<IndividualTaskProp> = ({
+	task,
+	groupName,
+	taskIdx,
+	charId,
+	taskType,
+	updateData,
+}) => {
+	// TODO: Update lastChecked and tasks' checked
+	const onInputToggle = () => {
+		checkedBox({ groupName, taskIdx, charId, taskType, updateData });
+		// task.checked ? checkedBox({ groupName, taskIdx, charId, taskType }) : null;
+		// console.log(e.target.checked, task.checked);
 	};
 
-	const imageLoader = () => {
-		return 'https://cdn.wikimg.net/en/strategywiki/images/e/e4/MS_NPC_Yoona.png';
-	};
 	return (
-		<div className='border rounded flex justify-between mt-4'>
+		<div className='flex border rounded items-center justify-between mt-4 w-64 h-16 px-2'>
+			<div className='relative w-14 h-12'>
+				<Image
+					src={task.image}
+					alt='task image'
+					fill
+					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+					style={{ objectFit: 'contain', zIndex: -1 }}
+				/>
+			</div>
+
 			<div>{task.name}</div>
-			<Image
-				loader={imageLoader}
-				src='https://cdn.wikimg.net/en/strategywiki/images/e/e4/MS_NPC_Yoona.png'
-				alt='Default Image'
-				width={40}
-				height={40}
+			<input
+				className='w-4 h-4 p-1 bg-white hover:shadow'
+				type='checkbox'
+				checked={task.checked}
+				onChange={onInputToggle}
 			/>
-			<input type='checkbox' />
 		</div>
 	);
 };

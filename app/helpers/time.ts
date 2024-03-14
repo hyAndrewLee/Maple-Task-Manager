@@ -1,3 +1,6 @@
+import { TaskData } from '../constants/defaults';
+import { uncheckAll } from './checkboxToggle';
+
 type FormatTimeReturnType = {
 	formattedDays: string;
 	formattedHours: string;
@@ -100,6 +103,30 @@ class timeHelper {
 		}
 
 		return formattedTime;
+	}
+
+	newUTCDate(now = new Date()) {
+		const utcDate = new Date(
+			Date.UTC(
+				now.getUTCFullYear(), // Get the current year (UTC)
+				now.getUTCMonth(), // Get the current month (UTC)
+				now.getUTCDate(), // Get the current day of the month (UTC)
+				now.getUTCHours(), // Get the current hour (UTC)
+				now.getUTCMinutes(), // Get the current minute (UTC)
+				now.getUTCSeconds(), // Get the current second (UTC)
+				now.getUTCMilliseconds() // Get the current millisecond (UTC)
+			)
+		);
+
+		return utcDate;
+	}
+
+	getPreviousDayMidnightUTC(): Date {
+		const today = this.newUTCDate();
+		const yesterday = this.newUTCDate(today);
+		yesterday.setUTCDate(today.getUTCDate() - 1); // Set the date to yesterday
+		yesterday.setUTCHours(0, 0, 0, 0); // Set time to midnight UTC
+		return yesterday;
 	}
 }
 

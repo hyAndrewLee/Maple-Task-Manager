@@ -1,26 +1,38 @@
-import { TaskData } from '@/app/constants/defaults';
+import { TaskData, UserData } from '@/app/constants/defaults';
 import IndividualTask from './individualTask';
 
 type TaskSectionProp = {
 	taskData: TaskData;
+	charId: string;
+	updateData: (updatedData: UserData) => void;
 };
 
-const TaskSection: React.FC<TaskSectionProp> = ({ taskData }) => {
+const TaskSection: React.FC<TaskSectionProp> = ({
+	taskData,
+	charId,
+	updateData,
+}) => {
 	const taskComponentArray = () => {
 		const taskComponents = [];
 
 		for (const sectionData of taskData.taskGroups) {
 			const sectionName = sectionData.taskGroupName;
-			const sectionTasks = [];
-
-			for (const task of sectionData.tasks) {
-				sectionTasks.push(<IndividualTask task={task} />);
-			}
-
-			console.log(sectionData);
+			// Must pass idx to modify task status in case there are duplicate names
+			const sectionTasks = sectionData.tasks.map((task, idx) => {
+				return (
+					<IndividualTask
+						task={task}
+						groupName={sectionData.taskGroupName}
+						taskIdx={idx}
+						charId={charId}
+						taskType={taskData.taskGroupType}
+						updateData={updateData}
+					/>
+				);
+			});
 
 			taskComponents.push(
-				<section>
+				<section className='flex flex-col items-center my-2'>
 					<div>{sectionName}</div>
 					<div>{...sectionTasks}</div>
 				</section>
@@ -30,7 +42,7 @@ const TaskSection: React.FC<TaskSectionProp> = ({ taskData }) => {
 		return taskComponents;
 	};
 
-	return <div className='flex justify-between'>{...taskComponentArray()}</div>;
+	return <>{...taskComponentArray()}</>;
 };
 
 export default TaskSection;
