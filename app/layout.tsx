@@ -1,6 +1,5 @@
 import Navbar from '@/app/components/navbar';
 import './globals.css';
-import { DAILIES } from '@/app/constants/defaults';
 
 export const metadata = {
 	title: 'Create Next App',
@@ -13,7 +12,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang='en'>
+		<html lang='en' className='no-scrollbar'>
 			<body>
 				<Navbar />
 				{children}

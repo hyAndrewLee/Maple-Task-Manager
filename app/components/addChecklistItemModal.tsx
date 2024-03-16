@@ -4,7 +4,7 @@ type AddChecklistItemModalProps = {
 	toggleModelStatus: () => void;
 };
 
-const InputStyle = 'rounded-sn';
+const InputStyle = 'rounded';
 
 const AddChecklistItemModal: React.FC<AddChecklistItemModalProps> = ({
 	toggleModelStatus,

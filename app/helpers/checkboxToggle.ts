@@ -1,6 +1,6 @@
 import timeHelper from './time';
 import { IndividualTaskProp } from '../components/taskSection/individualTask';
-import { TaskGroupType, UserData } from '../constants/defaults';
+import { TaskGroups, UserData } from '../constants/defaults';
 
 const checkedBox = ({
 	groupName,
@@ -20,7 +20,7 @@ const checkedBox = ({
 		(character) => character.id === charId
 	)!;
 
-	parsedUserData.lastChecked = new timeHelper().newUTCDate();
+	parsedUserData.lastChecked = new timeHelper().getNewUTCDate();
 
 	selectedChar[taskType].taskGroups.map((taskGroup) => {
 		if (taskGroup.taskGroupName === groupName) {
@@ -32,31 +32,39 @@ const checkedBox = ({
 	});
 };
 
-const uncheckAll = (
-	charId: string,
-	taskType: TaskGroupType,
-	updateState: (updatedData: UserData) => void
+const uncheckTasks = (
+	parsedUserData: UserData,
+	updateState: (uncheckedUserData: UserData) => void,
+	shouldUncheckWeeklies: boolean
 ) => {
-	const userData = localStorage.getItem('userData');
+	parsedUserData.characters.forEach((character) => {
+		uncheckAllDailies(character.dailies.taskGroups);
 
-	if (userData === null) {
-		return;
-	}
-
-	const parsedUserData: UserData = JSON.parse(userData);
-
-	parsedUserData.characters.map((character) => {
-		if (charId === character.id) {
-			character[taskType].taskGroups.forEach((group) => {
-				group.tasks.forEach((task) => {
-					task.checked = false;
-				});
-			});
+		if (shouldUncheckWeeklies) {
+			uncheckAllWeeklies(character.weeklies.taskGroups);
 		}
 	});
 
-	localStorage.setItem('userData', JSON.stringify(parsedUserData));
-	updateState(parsedUserData);
+	const deepDataClone = structuredClone(parsedUserData);
+
+	localStorage.setItem('userData', JSON.stringify(deepDataClone));
+	updateState(deepDataClone);
 };
 
-export { checkedBox, uncheckAll };
+const uncheckAllWeeklies = (tasksGroups: TaskGroups[]) => {
+	tasksGroups.forEach((group) => {
+		group.tasks.forEach((task) => {
+			task.checked = false;
+		});
+	});
+};
+
+const uncheckAllDailies = (tasksGroups: TaskGroups[]) => {
+	tasksGroups.forEach((group) => {
+		group.tasks.forEach((task) => {
+			task.checked = false;
+		});
+	});
+};
+
+export { checkedBox, uncheckTasks };

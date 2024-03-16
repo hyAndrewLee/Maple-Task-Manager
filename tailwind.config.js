@@ -7,6 +7,9 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			maxWidth: {
+				'task-container': '1154px',
+			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic':
@@ -14,6 +17,12 @@ module.exports = {
 			},
 			minHeight: {
 				'task-content-box': 'calc(100vh - 6rem)',
+			},
+			backgroundColor: {
+				checkBox: '#0075FF',
+			},
+			borderColor: {
+				checkBox: '#0075FF',
 			},
 		},
 	},

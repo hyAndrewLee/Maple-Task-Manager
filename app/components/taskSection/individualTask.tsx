@@ -27,7 +27,7 @@ const IndividualTask: React.FC<IndividualTaskProp> = ({
 	};
 
 	return (
-		<div className='flex border rounded items-center justify-between mt-4 w-64 h-16 px-2'>
+		<div className='flex border rounded items-center justify-between mt-3 w-64 h-16 px-2'>
 			<div className='relative w-14 h-12'>
 				<Image
 					src={task.image}
@@ -40,7 +40,7 @@ const IndividualTask: React.FC<IndividualTaskProp> = ({
 
 			<div>{task.name}</div>
 			<input
-				className='w-4 h-4 p-1 bg-white hover:shadow'
+				className='hover:shadow hover:shadow-slate-700 border border-gray-500 rounded bg-white w-4 h-4'
 				type='checkbox'
 				checked={task.checked}
 				onChange={onInputToggle}

@@ -1,17 +1,14 @@
-import { TaskData } from '../constants/defaults';
-import { uncheckAll } from './checkboxToggle';
+export type CountdownType = 'daily' | 'weekly' | 'event';
 
-type FormatTimeReturnType = {
-	formattedDays: string;
-	formattedHours: string;
-	formattedMinutes: string;
-	formattedSeconds: string;
+type NextEvent = {
+	eventTime: Date;
+	eventName: string;
 };
 
 class timeHelper {
 	private today = new Date();
 
-	getNextDayMidnightUTC(): Date {
+	getUpcomingMidnight(): Date {
 		const tomorrow: Date = new Date(
 			this.today.getUTCFullYear(),
 			this.today.getUTCMonth(),
@@ -34,53 +31,25 @@ class timeHelper {
 		return nextThursday;
 	}
 
-	getDuration(date1: Date, date2: Date): string {
-		// Calculate the difference in milliseconds
-		const differenceInMilliseconds: number = Math.abs(
-			date1.getTime() - date2.getTime()
-		);
-
+	formatTime(remainingTime: number, type: CountdownType): string {
 		// Convert milliseconds to days, hours, minutes, and seconds
-		const days: number = Math.floor(
-			differenceInMilliseconds / (1000 * 60 * 60 * 24)
-		);
+		const days: number = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
 		const hours: number = Math.floor(
-			(differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+			(remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 		);
 		const minutes: number = Math.floor(
-			(differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)
+			(remainingTime % (1000 * 60 * 60)) / (1000 * 60)
 		);
-		const seconds: number = Math.floor(
-			(differenceInMilliseconds % (1000 * 60)) / 1000
-		);
+		const seconds: number = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-		// Construct the duration string
-		const {
-			formattedDays,
-			formattedHours,
-			formattedMinutes,
-			formattedSeconds,
-		} = this.formatTime(days, hours, minutes, seconds);
-		const durationString =
-			formattedDays + formattedHours + formattedMinutes + formattedSeconds;
-
-		return durationString;
-	}
-
-	formatTime(
-		days: number,
-		hours: number,
-		minutes: number,
-		seconds: number
-	): FormatTimeReturnType {
-		const formattedTime: FormatTimeReturnType = {
+		const formattedTime = {
 			formattedDays: ``,
 			formattedHours: '',
 			formattedMinutes: '',
 			formattedSeconds: '',
 		};
 
-		if (days) {
+		if (days && type === 'weekly') {
 			formattedTime.formattedDays = `${days}d `;
 		}
 
@@ -102,10 +71,15 @@ class timeHelper {
 			formattedTime.formattedSeconds = `0${seconds}s`;
 		}
 
-		return formattedTime;
+		return (
+			formattedTime.formattedDays +
+			formattedTime.formattedHours +
+			formattedTime.formattedMinutes +
+			formattedTime.formattedSeconds
+		);
 	}
 
-	newUTCDate(now = new Date()) {
+	getNewUTCDate(now = new Date()) {
 		const utcDate = new Date(
 			Date.UTC(
 				now.getUTCFullYear(), // Get the current year (UTC)
@@ -121,12 +95,61 @@ class timeHelper {
 		return utcDate;
 	}
 
-	getPreviousDayMidnightUTC(): Date {
-		const today = this.newUTCDate();
-		const yesterday = this.newUTCDate(today);
+	getPreviousMidnightUTC(): Date {
+		const today = this.getNewUTCDate();
+		const yesterday = this.getNewUTCDate(today);
 		yesterday.setUTCDate(today.getUTCDate() - 1); // Set the date to yesterday
 		yesterday.setUTCHours(0, 0, 0, 0); // Set time to midnight UTC
 		return yesterday;
+	}
+
+	getNewEndTime(type: CountdownType) {
+		switch (type) {
+			case 'weekly':
+				return this.getNextThursdayMidnightUTC();
+			default:
+				return this.getUpcomingMidnight();
+		}
+	}
+
+	getNextEventInfo(): NextEvent {
+		const now = this.getNewUTCDate();
+		const previousMidnight = this.getPreviousMidnightUTC();
+		const bingo1 = structuredClone(now).setUTCHours(1, 0, 0, 0);
+		const bingo2 = structuredClone(now).setUTCHours(17, 0, 0, 0);
+		const rps1 = structuredClone(now).setUTCHours(5, 0, 0, 0);
+		const rps2 = structuredClone(now).setUTCHours(21, 0, 0, 0);
+		const soGongs1 = structuredClone(now).setUTCHours(13, 0, 0, 0);
+		const soGongs2 = structuredClone(now).setUTCHours(23, 0, 0, 0);
+
+		const events: { [x: number]: string } = {};
+
+		events[bingo1] = 'Bingo';
+		events[bingo2] = 'Bingo';
+		events[rps1] = 'Rock Paper Scissors';
+		events[rps2] = 'Rock Paper Scissors';
+		events[soGongs1] = 'So Gongs Treasure';
+		events[soGongs2] = 'So Gongs Treasure';
+
+		let eventTime = bingo1;
+		let eventName = 'Bingo';
+		let lastDifference = now.getTime() - bingo1;
+
+		for (const [time, name] of Object.entries(events)) {
+			const timeToNumber = Number(time);
+			const difference = now.getTime() - timeToNumber;
+
+			if (difference < 0 && Math.abs(difference) < lastDifference) {
+				eventTime = timeToNumber;
+				eventName = name;
+			}
+		}
+
+		if (eventTime - now.getTime() <= 0) {
+			eventTime = new Date(eventTime).setUTCDate(this.today.getUTCDate() + 1);
+		}
+
+		return { eventTime: new Date(eventTime), eventName };
 	}
 }
 

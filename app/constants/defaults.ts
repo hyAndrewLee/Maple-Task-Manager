@@ -16,11 +16,12 @@ export type BaseTask = {
 export type TaskGroups = {
 	taskGroupName: string;
 	tasks: BaseTask[];
+	numHidden: number;
 };
 
 export type TaskData = {
 	taskGroups: TaskGroups[];
-	taskGroupType: TaskGroupType
+	taskGroupType: TaskGroupType;
 };
 
 export type CharacterData = {
@@ -91,6 +92,7 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
+			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Tasks',
@@ -150,6 +152,7 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
+			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Arcane River',
@@ -218,6 +221,7 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
+			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Grandis',
@@ -272,6 +276,7 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
+			numHidden: 0,
 		},
 	],
 	taskGroupType: 'dailies',
@@ -287,7 +292,7 @@ const DEFAULTUSERDATA: UserData = {
 			selected: true,
 		},
 	],
-	lastChecked: new timeHelper().newUTCDate(),
+	lastChecked: new timeHelper().getNewUTCDate(),
 } as const;
 
 export { DEFAULTUSERDATA };

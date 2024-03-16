@@ -6,7 +6,7 @@ import TaskSection from '../components/taskSection/taskSection';
 import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
 import Countdown from '@/app/components/countdown';
 import timeHelper from '../helpers/time';
-import { uncheckAll } from '../helpers/checkboxToggle';
+import { uncheckTasks } from '../helpers/checkboxToggle';
 
 const Daiies: React.FC = () => {
 	const [loading, setLoading] = useState(true);
@@ -14,10 +14,8 @@ const Daiies: React.FC = () => {
 	const [userData, setUserData] = useState<UserData>(DEFAULTUSERDATA);
 
 	const time = new timeHelper();
-
+	const { eventTime, eventName } = time.getNextEventInfo();
 	const updateUserData = (updatedData: UserData) => {
-		localStorage.setItem('userData', JSON.stringify(updatedData));
-
 		setUserData(updatedData);
 	};
 
@@ -30,14 +28,13 @@ const Daiies: React.FC = () => {
 		}
 		const parsedUserData: UserData = JSON.parse(userData);
 
+		// Uncheck all tasks if lastChecked is before last reset and now is past reset
+		const previousReset = time.getPreviousMidnightUTC().getTime();
 		if (
-			time.getPreviousDayMidnightUTC().getTime() >=
-			new Date(parsedUserData.lastChecked).getTime()
+			previousReset > new Date(parsedUserData.lastChecked).getTime() &&
+			time.getNewUTCDate().getTime() > previousReset
 		) {
-			const selectedChar = parsedUserData.characters.find(
-				(character) => character.selected
-			)!;
-			uncheckAll(selectedChar.id, 'dailies', updateUserData);
+			uncheckTasks(parsedUserData, setUserData, false);
 		}
 
 		setUserData(parsedUserData);
@@ -67,20 +64,32 @@ const Daiies: React.FC = () => {
 		<></>
 	) : (
 		<div className='flex justify-center my-4'>
-			<div className='flex flex-col border max-w-screen-xl min-h-task-content-box px-4'>
+			<div className='flex flex-col border rounded max-w-task-container min-h-task-content-box px-4'>
 				<div className='flex flex-col w-full'>
-					<div className='flex justify-between'>
-						<Countdown
-							style='border flex flex-col items-center w-28 mt-2 ml-2'
-							endTime={time.getNextDayMidnightUTC()}
-							dataType={selectedCharacterData.dailies.taskGroupType}
-							id={selectedCharacterData.id}
-							lastUpdated={userData.lastChecked}
-							updateUserData={updateUserData}
-						/>
-						<u className='mt-2'>{selectedCharacterData.name}'s Dailies</u>
+					<div className='flex'>
+						<div className='flex w-1/3 flex-wrap'>
+							<Countdown
+								style='border flex flex-col rounded items-center px-4 mt-2'
+								endTime={time.getUpcomingMidnight()}
+								updateUserData={updateUserData}
+								userData={userData}
+								type='daily'
+							/>
+							<Countdown
+								style='border flex flex-col rounded items-center px-4 mt-2 ml-4'
+								endTime={eventTime}
+								updateUserData={updateUserData}
+								userData={userData}
+								type='event'
+								name={eventName}
+							/>
+						</div>
+
+						<u className='flex justify-center mt-2 w-1/3'>
+							{selectedCharacterData.name}'s Dailies
+						</u>
 						<button
-							className='border h-8 w-28 mt-2 mr-2'
+							className='border rounded ml-auto h-8 w-32 mt-2'
 							onClick={() =>
 								modelStatus ? setModalStatus(false) : setModalStatus(true)
 							}
@@ -95,7 +104,7 @@ const Daiies: React.FC = () => {
 						<AddChecklistItemModal toggleModelStatus={toggleModelStatus} />
 					) : null}
 				</div>
-				<div className='flex flex-wrap justify-center gap-8'>
+				<div className='flex flex-wrap justify-center gap-8 mt-2'>
 					<TaskSection
 						taskData={selectedCharacterData.dailies}
 						charId={selectedCharacterData.id}
