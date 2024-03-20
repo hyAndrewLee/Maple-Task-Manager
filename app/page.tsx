@@ -8,8 +8,14 @@ const Home: React.FC = () => {
 					completed its countdown.
 				</p>
 				<p className='pb-4'>
-					For feedback and requests, feel free to email me at:
-					mapleTaskManager@gmail.com.
+					For feedback and requests, feel free to email me at{' '}
+					mapleTaskManager@gmail.com, or create a{' '}
+					<a
+						className='underline text-green-300'
+						href='https://github.com/hyAndrewLee/Maple-Task-Manager'
+					>
+						Github issue
+					</a>
 				</p>
 
 				<ul>
