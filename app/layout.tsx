@@ -2,7 +2,7 @@ import Navbar from '@/app/components/navbar';
 import './globals.css';
 
 export const metadata = {
-	title: 'MSTool',
+	title: 'Maple Task Manager',
 	description: 'All in one maplestory progression tool',
 };
 

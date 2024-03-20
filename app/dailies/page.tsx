@@ -73,7 +73,7 @@ const Daiies: React.FC = () => {
 	};
 
 	return !userData ? null : (
-		<div className='flex justify-center my-4'>
+		<div className='flex justify-center my-2'>
 			<div className='flex flex-col border rounded max-w-task-container min-h-task-content-box px-4'>
 				<div className='flex flex-col w-full'>
 					<div className='flex'>
@@ -99,12 +99,12 @@ const Daiies: React.FC = () => {
 						<u className='flex justify-center mt-2 w-1/3'>
 							{selectedCharacterData.name}'s Dailies
 						</u>
-						<button
+						{/* <button
 							className='border rounded ml-auto h-8 w-32 mt-2'
 							onClick={() => setModalOpen(!modalOpen)}
 						>
 							Add/Edit Tasks
-						</button>
+						</button> */}
 					</div>
 					<div className='flex justify-center content-between'>
 						{...characterSelectionComponentArray!}
@@ -121,7 +121,9 @@ const Daiies: React.FC = () => {
 			{modalOpen ? (
 				<AddEditModal
 					toggleModalStatus={toggleModalStatus}
-					selectedCharData={selectedCharacterData}
+					selectedCharDataId={selectedCharacterData.id}
+					userData={userData}
+					type='dailies'
 				/>
 			) : null}
 		</div>

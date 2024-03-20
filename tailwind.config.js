@@ -9,6 +9,7 @@ module.exports = {
 		extend: {
 			maxWidth: {
 				'task-container': '1154px',
+				'home-container': '800px',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -1,19 +1,35 @@
-import { CharacterData } from '@/app/constants/defaults';
+import {
+	CharacterData,
+	TaskGroupType,
+	UserData,
+} from '@/app/constants/defaults';
 
 type AddEditModal = {
 	toggleModalStatus: () => void;
-	selectedCharData: CharacterData;
+	selectedCharDataId: string;
+	userData: UserData;
+	type: TaskGroupType;
 };
 
 const AddEditModal: React.FC<AddEditModal> = ({
 	toggleModalStatus,
-	selectedCharData,
+	selectedCharDataId,
+	userData,
+	type,
 }) => {
+	const typeToUpperCase = type[0].toUpperCase() + type.slice(1, type.length);
+
+	const selectedCharData = userData.characters.find(
+		(character: CharacterData) => (character.id = selectedCharDataId)
+	)!.dailies;
+
+	console.log(selectedCharData);
+
 	return (
 		<div className='backdrop-blur-sm fixed w-full h-full z-50 flex justify-center items-center inset-0'>
 			<div className='border 1px w-2/4 h-3/5 bg-gray-500'>
 				<div className='flex px-2 py-1 ml-auto'>
-					<div className='ml-auto'>Edit Tasks</div>
+					<div className='ml-auto'>Edit {typeToUpperCase}</div>
 					<button
 						className='border rounded-2xl w-6 ml-auto'
 						onClick={() => toggleModalStatus()}
