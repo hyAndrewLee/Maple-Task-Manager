@@ -20,11 +20,16 @@ const checkedBox = ({
 		(character) => character.id === charId
 	)!;
 
-	parsedUserData.lastChecked = new timeHelper().getNewUTCDate();
-
 	selectedChar[taskType].taskGroups.map((taskGroup) => {
 		if (taskGroup.taskGroupName === groupName) {
-			taskGroup.tasks[taskIdx].checked = !taskGroup.tasks[taskIdx].checked;
+			const task = taskGroup.tasks[taskIdx];
+
+			// update lastChecked if flipping checked to true
+			if (!task.checked) {
+				parsedUserData.lastChecked = new timeHelper().getNewUTCDate();
+			}
+
+			task.checked = !task.checked;
 			localStorage.setItem('userData', JSON.stringify(parsedUserData));
 			updateData(parsedUserData);
 			return;

@@ -3,6 +3,7 @@ export type CountdownType = 'daily' | 'weekly' | 'event';
 type NextEvent = {
 	eventTime: Date;
 	eventName: string;
+	eventStarting?: boolean;
 };
 
 class timeHelper {
@@ -114,7 +115,7 @@ class timeHelper {
 
 	getNextEventInfo(): NextEvent {
 		const now = this.getNewUTCDate();
-		const previousMidnight = this.getPreviousMidnightUTC();
+		const nowToMilliseconds = now.getTime();
 		const bingo1 = structuredClone(now).setUTCHours(1, 0, 0, 0);
 		const bingo2 = structuredClone(now).setUTCHours(17, 0, 0, 0);
 		const rps1 = structuredClone(now).setUTCHours(5, 0, 0, 0);
@@ -131,25 +132,42 @@ class timeHelper {
 		events[soGongs1] = 'So Gongs Treasure';
 		events[soGongs2] = 'So Gongs Treasure';
 
-		let eventTime = bingo1;
-		let eventName = 'Bingo';
-		let lastDifference = now.getTime() - bingo1;
+		let eventTime = Infinity;
 
 		for (const [time, name] of Object.entries(events)) {
-			const timeToNumber = Number(time);
-			const difference = now.getTime() - timeToNumber;
+			const currTimeToNumber = Number(time);
+			const currDifference = currTimeToNumber - nowToMilliseconds;
 
-			if (difference < 0 && Math.abs(difference) < lastDifference) {
-				eventTime = timeToNumber;
-				eventName = name;
+			if (currDifference >= -60000 && currDifference <= 0) {
+				return {
+					eventStarting: true,
+					eventTime: new Date(currTimeToNumber + 60000),
+					eventName: name,
+				};
+			}
+
+			if (
+				currTimeToNumber > nowToMilliseconds &&
+				currTimeToNumber < eventTime
+			) {
+				eventTime = currTimeToNumber;
 			}
 		}
 
-		if (eventTime - now.getTime() <= 0) {
-			eventTime = new Date(eventTime).setUTCDate(this.today.getUTCDate() + 1);
+		// If reached end of events, return the next earliest event date + 1 day
+		if (eventTime === Infinity) {
+			return {
+				eventTime: new Date(bingo1 + 24 * 60 * 60 * 1000),
+				eventName: 'Bingo',
+			};
 		}
 
-		return { eventTime: new Date(eventTime), eventName };
+		return {
+			eventTime: new Date(eventTime),
+			eventName: events[eventTime],
+		};
+
+		// If no upcoming event found, return the bingo1
 	}
 }
 

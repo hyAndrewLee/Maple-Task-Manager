@@ -1,6 +1,7 @@
 import { TaskData, UserData } from '@/app/constants/defaults';
 import IndividualTask from './individualTask';
 
+
 type TaskSectionProp = {
 	taskData: TaskData;
 	charId: string;

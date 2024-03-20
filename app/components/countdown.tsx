@@ -6,10 +6,17 @@ import { uncheckTasks } from '../helpers/checkboxToggle';
 type CountdownProp = {
 	endTime: Date;
 	style: string;
-updateUserData: (updatedData: UserData) => void;
+	updateUserData: (updatedData: UserData) => void;
 	userData: UserData;
 	type: CountdownType;
 	name?: string;
+	eventStarting?: boolean;
+};
+
+type CountDownInfo = {
+	remainingTime: string;
+	countdownName: string;
+	eventStarting: boolean;
 };
 
 const Countdown: React.FC<CountdownProp> = ({
@@ -19,13 +26,16 @@ const Countdown: React.FC<CountdownProp> = ({
 	userData,
 	type,
 	name,
+	eventStarting,
 }) => {
-	const [remainingTime, setRemainingTime] = useState(
-		new timeHelper().formatTime(
+	const [countdownInfo, setCountdownInfo] = useState<CountDownInfo>({
+		remainingTime: new timeHelper().formatTime(
 			Math.abs(new Date().getTime() - endTime.getTime()),
 			type
-		)
-	);
+		),
+		countdownName: name ?? 'Reset In',
+		eventStarting: eventStarting ?? false,
+	});
 
 	useEffect(() => {
 		const time = new timeHelper();
@@ -34,28 +44,49 @@ const Countdown: React.FC<CountdownProp> = ({
 			let difference = new Date().getTime() - endTime.getTime();
 			const shouldResetCountdown = difference > -1000 || difference >= 0;
 			const absDifference = Math.abs(difference);
+			const updatedCountdownInfo = structuredClone(countdownInfo);
 
 			if (!shouldResetCountdown) {
-				setRemainingTime(time.formatTime(absDifference, type));
+				updatedCountdownInfo.remainingTime = time.formatTime(
+					absDifference,
+					type
+				);
 			}
 
 			if (shouldResetCountdown) {
-				const newEndTime = time.getNewEndTime(type);
+				if (type === 'event') {
+					const eventInfo = time.getNextEventInfo();
+					const newEndTimeDifference = Math.abs(
+						new Date().getTime() - eventInfo.eventTime.getTime()
+					);
 
-				if (typeof newEndTime === 'string') {
-					endTime = newEndTime;
-				}
+					updatedCountdownInfo.remainingTime = time.formatTime(
+						newEndTimeDifference,
+						type
+					);
+					updatedCountdownInfo.countdownName = eventInfo.eventName;
 
-				if (typeof newEndTime === 'object') {
-					endTime = time.getNextEventInfo().eventTime;
-					setRemainingTime(time.formatTime(absDifference, type));
+					if (eventInfo.eventStarting) {
+						updatedCountdownInfo.eventStarting = true;
+					}
+
+					if (!eventInfo.eventStarting) {
+						updatedCountdownInfo.eventStarting = false;
+					}
 				}
 
 				if (type === 'daily') {
+					const newEndTimeDifference = Math.abs(
+						new Date().getTime() - time.getUpcomingMidnight().getTime()
+					);
+					updatedCountdownInfo.remainingTime = time.formatTime(
+						newEndTimeDifference,
+						type
+					);
 					uncheckTasks(userData, updateUserData, false);
-					setRemainingTime(time.formatTime(absDifference, type));
 				}
 			}
+			setCountdownInfo(updatedCountdownInfo);
 		}, 1000);
 
 		return () => {
@@ -63,10 +94,17 @@ const Countdown: React.FC<CountdownProp> = ({
 		};
 	}, []);
 
+	const eventHighlight = countdownInfo.eventStarting
+		? ' border-green-400 shadow-[inset_0_0_12px_rgb(134,239,172)]'
+		: null;
+	const countdownName = countdownInfo.eventStarting
+		? 'Starting In'
+		: countdownInfo.countdownName;
+
 	return (
-		<div className={style}>
-			<div>{name ? name : 'Reset In'}</div>
-			<div suppressHydrationWarning={true}>{remainingTime}</div>
+		<div className={`${style} ${eventHighlight}`}>
+			<div>{countdownName}</div>
+			<div suppressHydrationWarning={true}>{countdownInfo.remainingTime}</div>
 		</div>
 	);
 };

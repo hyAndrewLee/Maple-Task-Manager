@@ -19,15 +19,15 @@ const IndividualTask: React.FC<IndividualTaskProp> = ({
 	taskType,
 	updateData,
 }) => {
-	// TODO: Update lastChecked and tasks' checked
 	const onInputToggle = () => {
 		checkedBox({ groupName, taskIdx, charId, taskType, updateData });
-		// task.checked ? checkedBox({ groupName, taskIdx, charId, taskType }) : null;
-		// console.log(e.target.checked, task.checked);
 	};
 
 	return (
-		<div className='flex border rounded items-center justify-between mt-3 w-64 h-16 px-2'>
+		<div
+			className='hover:cursor-pointer flex border rounded items-center justify-between mt-3 w-64 h-16 px-2 select-none'
+			onClick={onInputToggle}
+		>
 			<div className='relative w-14 h-12'>
 				<Image
 					src={task.image}
@@ -35,16 +35,19 @@ const IndividualTask: React.FC<IndividualTaskProp> = ({
 					fill
 					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 					style={{ objectFit: 'contain', zIndex: -1 }}
+					priority={true}
 				/>
 			</div>
 
-			<div>{task.name}</div>
-			<input
-				className='hover:shadow hover:shadow-slate-700 border border-gray-500 rounded bg-white w-4 h-4'
-				type='checkbox'
-				checked={task.checked}
-				onChange={onInputToggle}
-			/>
+			<label htmlFor='task-checkbox' className='flex w-full'>
+				<div className='ml-auto'>{task.name}</div>
+				<input
+					className='hover:cursor-pointer hover:shadow hover:shadow-slate-700 border border-gray-500 rounded bg-white w-4 h-4 ml-auto'
+					type='checkbox'
+					checked={task.checked}
+					readOnly
+				/>
+			</label>
 		</div>
 	);
 };
