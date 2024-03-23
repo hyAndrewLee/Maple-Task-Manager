@@ -1,5 +1,5 @@
 'use client';
-import Clock from '@/app/components/clock';
+import Clock from '@/app/components/Clock';
 import { Formik } from 'formik';
 import React, { useMemo, useState } from 'react';
 

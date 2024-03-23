@@ -1,9 +1,9 @@
-import Navbar from '@/app/components/navbar';
+import Navbar from '@/app/components/Navbar';
 import './globals.css';
 
 export const metadata = {
 	title: 'Maple Task Manager',
-	description: 'All in one maplestory progression tool',
+	description: 'Maplestory dailies, weeklies, and timer tool',
 };
 
 export default function RootLayout({

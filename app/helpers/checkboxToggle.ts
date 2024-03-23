@@ -25,9 +25,7 @@ const checkedBox = ({
 			const task = taskGroup.tasks[taskIdx];
 
 			// update lastChecked if flipping checked to true
-			if (!task.checked) {
-				parsedUserData.lastChecked = new timeHelper().getNewUTCDate();
-			}
+			parsedUserData.lastChecked = new timeHelper().getNewUTCDate();
 
 			task.checked = !task.checked;
 			localStorage.setItem('userData', JSON.stringify(parsedUserData));

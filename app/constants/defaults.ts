@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { StaticImageData } from 'next/image';
 import timeHelper from '../helpers/time';
-import tooh from '@/public/assets/tooh.png';
-import nori from '@/public/assets/nori.png';
+import tooh from '@/public/static/tooh.png';
+import nori from '@/public/static/nori.png';
 
 export type TaskGroupType = 'dailies' | 'weeklies';
 

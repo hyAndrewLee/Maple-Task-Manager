@@ -99,7 +99,7 @@ class timeHelper {
 	getPreviousMidnightUTC(): Date {
 		const today = this.getNewUTCDate();
 		const yesterday = this.getNewUTCDate(today);
-		yesterday.setUTCDate(today.getUTCDate() - 1); // Set the date to yesterday
+		yesterday.setUTCDate(today.getUTCDate()); // Set the date to yesterday
 		yesterday.setUTCHours(0, 0, 0, 0); // Set time to midnight UTC
 		return yesterday;
 	}
@@ -166,8 +166,6 @@ class timeHelper {
 			eventTime: new Date(eventTime),
 			eventName: events[eventTime],
 		};
-
-		// If no upcoming event found, return the bingo1
 	}
 }
 

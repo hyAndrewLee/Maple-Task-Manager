@@ -1,31 +1,33 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import CharacterSelection from '../components/characterNameSelection';
+import CharacterSelection from '../components/CharacterNameSelection';
 import TaskSection from '../components/taskSection/taskSection';
-import AddEditModal from '../components/addEditModal/addEditModal';
+import AddEditModal from '../components/addEditModal/AddEditModal';
 import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
-import Countdown from '@/app/components/countdown';
+import Countdown from '@/app/components/Countdown';
 import timeHelper from '../helpers/time';
 import { uncheckTasks } from '../helpers/checkboxToggle';
 
 const Daiies: React.FC = () => {
-	const [modalOpen, setModalOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userData, setUserData] = useState<UserData>();
 
 	const time = new timeHelper();
 	const { eventTime, eventName, eventStarting } = time.getNextEventInfo();
 
 	useEffect(() => {
-		const userData = localStorage.getItem('userData');
+		const localStorageUserData = localStorage.getItem('userData');
 
-		if (!userData) {
+		if (!localStorageUserData) {
 			localStorage.setItem('userData', JSON.stringify(DEFAULTUSERDATA));
+			setUserData(DEFAULTUSERDATA);
 			return;
 		}
-		const parsedUserData: UserData = JSON.parse(userData);
+		const parsedUserData: UserData = JSON.parse(localStorageUserData);
 
 		// Uncheck all tasks if lastChecked is before last reset and now is past reset
 		const previousReset = time.getPreviousMidnightUTC().getTime();
+
 		if (
 			previousReset > new Date(parsedUserData.lastChecked).getTime() &&
 			time.getNewUTCDate().getTime() > previousReset
@@ -37,7 +39,7 @@ const Daiies: React.FC = () => {
 
 		const close = (e: KeyboardEvent) => {
 			if (e.code === 'Escape') {
-				setModalOpen(false);
+				setIsModalOpen(false);
 			}
 		};
 		window.addEventListener('keydown', close);
@@ -46,10 +48,6 @@ const Daiies: React.FC = () => {
 
 	const updateUserData = (updatedData: UserData) => {
 		setUserData(updatedData);
-	};
-
-	const allCharacterNames = () => {
-		return userData?.characters.map((character) => name);
 	};
 
 	const characterSelectionComponentArray = useMemo(() => {
@@ -69,10 +67,10 @@ const Daiies: React.FC = () => {
 	}, [userData]);
 
 	const toggleModalStatus = () => {
-		setModalOpen(!modalOpen);
+		setIsModalOpen(!isModalOpen);
 	};
 
-	return !userData ? null : (
+	return userData === undefined ? null : (
 		<div className='flex justify-center my-2'>
 			<div className='flex flex-col border rounded max-w-task-container min-h-task-content-box px-4'>
 				<div className='flex flex-col w-full'>
@@ -99,12 +97,12 @@ const Daiies: React.FC = () => {
 						<u className='flex justify-center mt-2 w-1/3'>
 							{selectedCharacterData.name}'s Dailies
 						</u>
-						{/* <button
+						<button
 							className='border rounded ml-auto h-8 w-32 mt-2'
-							onClick={() => setModalOpen(!modalOpen)}
+							onClick={() => setIsModalOpen(!isModalOpen)}
 						>
 							Add/Edit Tasks
-						</button> */}
+						</button>
 					</div>
 					<div className='flex justify-center content-between'>
 						{...characterSelectionComponentArray!}
@@ -118,7 +116,7 @@ const Daiies: React.FC = () => {
 					/>
 				</div>
 			</div>
-			{modalOpen ? (
+			{isModalOpen ? (
 				<AddEditModal
 					toggleModalStatus={toggleModalStatus}
 					selectedCharDataId={selectedCharacterData.id}
