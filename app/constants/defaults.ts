@@ -3,6 +3,33 @@ import { StaticImageData } from 'next/image';
 import timeHelper from '../helpers/time';
 import tooh from '@/public/static/tooh.png';
 import nori from '@/public/static/nori.png';
+import vellum from '@/public/static/vellum.webp';
+import crimsonQueen from '@/public/static/crimsonQueen.webp';
+import pinkBean from '@/public/static/pinkBean.webp';
+import vonLeon from '@/public/static/vonLeon.webp';
+import arkarium from '@/public/static/arkarium.webp';
+import magnus from '@/public/static/magnus.webp';
+import ranmaru from '@/public/static/ranmaru.webp';
+import vote from '@/public/static/vote.webp';
+import dailyGift from '@/public/static/dailyGift.webp';
+import legionQuest from '@/public/static/legionQuest.webp';
+import legionCoin from '@/public/static/legionCoins.webp';
+import dungeon from '@/public/static/dungeon.webp';
+import monsterPark from '@/public/static/monsterPark.webp';
+import vanishingJourneyDaily from '@/public/static/vanishingJourneyDaily.webp';
+import chuchuDaily from '@/public/static/chuChuDaily.webp';
+import lacheleinDaily from '@/public/static/lacheleinDaily.webp';
+import arcanaDaily from '@/public/static/arcanaDaily.webp';
+import morassDaily from '@/public/static/morassDaily.webp';
+import esferaDaily from '@/public/static/esferaDaily.webp';
+import teneDaily from '@/public/static/teneDaily.webp';
+import cernium from '@/public/static/cernium.webp';
+import hotel from '@/public/static/hotel.webp';
+import odium from '@/public/static/odium.webp';
+import shangrila from '@/public/static/shangrila.webp';
+import arteria from '@/public/static/arteria.webp';
+import carcion from '@/public/static/carcion.webp';
+import erdaRequest from '@/public/static/erdasRequest.webp';
 
 export type TaskGroupType = 'dailies' | 'weeklies';
 
@@ -44,50 +71,43 @@ const DEFAULTDAILIES: TaskData = {
 			tasks: [
 				{
 					name: 'Crimson Queen',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/6/61/Mob_Wrathful_Crimson_Queen.png/revision/latest?cb=20130112134053',
+					image: crimsonQueen,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Vellum',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/d/da/Mob_Vellum.png/revision/latest?cb=20130110185030',
+					image: vellum,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Pink Bean',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/5/5f/Mob_Pink_Bean.png/revision/latest?cb=20100816123239',
+					image: pinkBean,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Von Leon',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/4/41/Mob_Von_Leon.png/revision/latest?cb=20190417060030',
+					image: vonLeon,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Arkarium',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/9/96/NPC_Arkarium.png/revision/latest?cb=20120207161354',
+					image: arkarium,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Magnus',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/d/d8/Mob_Magnus.png/revision/latest?cb=20120805080508',
+					image: magnus,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Ranmaru',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/c/c2/Mob_Mori_Ranmaru.png/revision/latest?cb=20121217061710',
+					image: ranmaru,
 					hidden: false,
 					checked: false,
 				},
@@ -99,36 +119,31 @@ const DEFAULTDAILIES: TaskData = {
 			tasks: [
 				{
 					name: 'Vote',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/9/91/NPC_Strange_Ornate_Chest.png/revision/latest?cb=20160208034011',
+					image: vote,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Daily Gift',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/b/bb/NPC_Wonky_the_Fairy.png/revision/latest?cb=20121022012036',
+					image: dailyGift,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Legion Quest',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/2/2c/NPC_Dame_Appropriation.png/revision/latest?cb=20170720223745',
+					image: legionQuest,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Legion Coins',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/e/ea/NPC_Squire_Pancho_Sanza.png/revision/latest?cb=20170720223753',
+					image: legionCoin,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Dungeon',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/7/74/NPC_Mystic_Gate.png/revision/latest?cb=20121121145611',
+					image: dungeon,
 					hidden: false,
 					checked: false,
 				},
@@ -146,8 +161,7 @@ const DEFAULTDAILIES: TaskData = {
 				},
 				{
 					name: 'Monster Park',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/9/9f/NPC_Monster_Park_Shuttle.png/revision/latest?cb=20111029104957',
+					image: monsterPark,
 					hidden: false,
 					checked: false,
 				},
@@ -159,64 +173,55 @@ const DEFAULTDAILIES: TaskData = {
 			tasks: [
 				{
 					name: 'Vanishing Journey',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/8/8c/NPC_Rona.png/revision/latest?cb=20170530221620',
+					image: vanishingJourneyDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Chu Chu',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/5/57/NPC_Master_Lyck.png/revision/latest?cb=20180721145233',
+					image: chuchuDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Lachelein',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/c/ce/NPC_Gray_Mask.png/revision/latest?cb=20240120090634',
+					image: lacheleinDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Arcana',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/9/96/NPC_Tree_Spirits.png/revision/latest?cb=20180817195833',
+					image: arcanaDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Morass',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/b/bf/NPC_Jean_%28Morass%29.png/revision/latest?cb=20171210062641',
+					image: morassDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Esfera',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/7/73/NPC_Ollie.png/revision/latest?cb=20180721063435',
+					image: esferaDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Moonbridge',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/e/ec/NPC_Velivah.png/revision/latest?cb=20190203174356',
+					image: teneDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Labyrinth',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/e/ec/NPC_Velivah.png/revision/latest?cb=20190203174356',
+					image: teneDaily,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Liminia',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/e/ec/NPC_Velivah.png/revision/latest?cb=20190203174356',
+					image: teneDaily,
 					hidden: false,
 					checked: false,
 				},
@@ -228,50 +233,43 @@ const DEFAULTDAILIES: TaskData = {
 			tasks: [
 				{
 					name: 'Cernium',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/6/61/NPC_Flame_Priest.png/revision/latest?cb=20201230073711',
+					image: cernium,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Hotel Arcus',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/2/24/NPC_Archelon.png/revision/latest?cb=20210722000528',
+					image: hotel,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Odium',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/d/d4/NPC_Sya-sya.png/revision/latest?cb=20221217041140',
+					image: odium,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Shangri-La',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/4/42/NPC_Master_Tai_Yu.png/revision/latest?cb=20191230085543',
+					image: shangrila,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Arteria',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/1/17/NPC_Neinheart.png/revision/latest?cb=20110308155501',
+					image: arteria,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: 'Carcion',
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/8/86/NPC_Duhan.png/revision/latest?cb=20231130153138',
+					image: carcion,
 					hidden: false,
 					checked: false,
 				},
 				{
 					name: "Erda's Request",
-					image:
-						'https://static.wikia.nocookie.net/maplestory/images/7/78/NPC_The_Erda_Flow.png/revision/latest?cb=20231201125659',
+					image: erdaRequest,
 					hidden: false,
 					checked: false,
 				},

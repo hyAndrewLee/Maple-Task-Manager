@@ -47,6 +47,7 @@ const uncheckTasks = (
 			uncheckAllWeeklies(character.weeklies.taskGroups);
 		}
 	});
+	parsedUserData.lastChecked = new Date();
 
 	const deepDataClone = structuredClone(parsedUserData);
 

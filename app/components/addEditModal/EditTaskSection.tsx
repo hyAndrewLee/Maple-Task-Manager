@@ -7,11 +7,12 @@ type EditTaskSectionProp = {
 };
 
 const EditTaskSection: React.FC<EditTaskSectionProp> = ({ taskGroups }) => {
-	const [currentlyActive, setCurrentlyActive] = useState(0);
+	const [shouldCloseAllAccordian, setShouldCloseAllAccordian] = useState(false);
 
-	const handleAccordianClick = (count) => {
-		setCurrentlyActive(1)
-	}
+	const handleAccordianClick = () => {
+		setShouldCloseAllAccordian(true);
+		setShouldCloseAllAccordian(false);
+	};
 
 	const taskSections = () => {
 		const sections = [];

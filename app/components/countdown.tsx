@@ -42,7 +42,7 @@ const Countdown: React.FC<CountdownProp> = ({
 
 		const countdownInterval = setInterval(() => {
 			let difference = new Date().getTime() - endTime.getTime();
-			const shouldResetCountdown = difference > -1000;
+			const shouldResetCountdown = difference >= 0;
 			const absDifference = Math.abs(difference);
 			const updatedCountdownInfo = structuredClone(countdownInfo);
 
@@ -71,6 +71,7 @@ const Countdown: React.FC<CountdownProp> = ({
 
 				if (type === 'daily') {
 					endTime = time.getUpcomingMidnight();
+
 					const newEndTimeDifference = Math.abs(
 						new Date().getTime() - endTime.getTime()
 					);
