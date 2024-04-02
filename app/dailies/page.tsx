@@ -16,26 +16,26 @@ const Daiies: React.FC = () => {
 	const { eventTime, eventName, eventStarting } = time.getNextEventInfo();
 
 	useEffect(() => {
-		const localStorageUserData = localStorage.getItem('userData');
+		const localStorageUserData = userData ?? localStorage.getItem('userData');
 
 		if (!localStorageUserData) {
 			localStorage.setItem('userData', JSON.stringify(DEFAULTUSERDATA));
 			setUserData(DEFAULTUSERDATA);
 			return;
 		}
-		const parsedUserData: UserData = JSON.parse(localStorageUserData);
+		const parsedUserData: UserData =
+			typeof localStorageUserData === 'string'
+				? JSON.parse(localStorageUserData)
+				: localStorageUserData;
 
 		// Uncheck all tasks if lastChecked is before last reset and now is past reset
 		const previousReset = time.getPreviousMidnightUTC().getTime();
 
-		if (
-			previousReset > new Date(parsedUserData.lastChecked).getTime() &&
-			time.getNewUTCDate().getTime() > previousReset
-		) {
+		if (previousReset > new Date(parsedUserData.lastChecked).getTime()) {
 			uncheckTasks(parsedUserData, setUserData, false);
+		} else {
+			setUserData(parsedUserData);
 		}
-
-		setUserData(parsedUserData);
 
 		const close = (e: KeyboardEvent) => {
 			if (e.code === 'Escape') {

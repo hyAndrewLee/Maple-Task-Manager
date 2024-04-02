@@ -10,12 +10,14 @@ class timeHelper {
 	private today = new Date();
 
 	getUpcomingMidnight(): Date {
+		// const utcSeconds = this.today.getUTCSeconds();
 		const tomorrow: Date = new Date(
 			this.today.getUTCFullYear(),
 			this.today.getUTCMonth(),
 			this.today.getUTCDate() + 1
 		); // Get tomorrow's date
 		tomorrow.setUTCHours(0, 0, 0, 0); // Set time to midnight UTC
+
 		return tomorrow;
 	}
 

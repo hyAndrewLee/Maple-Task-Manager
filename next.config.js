@@ -4,15 +4,9 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'cdn.wikimg.net',
+				hostname: '**',
 				port: '',
-				pathname: '/en/strategywiki/images/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'static.wikia.nocookie.net',
-				port: '',
-				pathname: '/maplestory/images/**',
+				pathname: '**',
 			},
 		],
 	},
