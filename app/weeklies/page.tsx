@@ -8,12 +8,11 @@ import Countdown from '@/app/components/Countdown';
 import timeHelper from '../helpers/time';
 import { uncheckTasks } from '../helpers/checkboxToggle';
 
-const Daiies: React.FC = () => {
+const Weeklies: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userData, setUserData] = useState<UserData>();
 
 	const time = new timeHelper();
-	const { eventTime, eventName, eventStarting } = time.getNextEventInfo();
 
 	useEffect(() => {
 		const localStorageUserData = userData ?? localStorage.getItem('userData');
@@ -32,11 +31,7 @@ const Daiies: React.FC = () => {
 		const previousReset = time.getPreviousMidnightUTC().getTime();
 
 		if (previousReset > new Date(parsedUserData.lastChecked).getTime()) {
-			if (time.getUpcomingMidnight().getDay() === 4) {
-				uncheckTasks(parsedUserData, setUserData, true);
-			} else {
-				uncheckTasks(parsedUserData, setUserData, false);
-			}
+			uncheckTasks(parsedUserData, setUserData, true);
 		} else {
 			setUserData(parsedUserData);
 		}
@@ -82,24 +77,15 @@ const Daiies: React.FC = () => {
 						<div className='flex w-1/3 flex-wrap gap-4'>
 							<Countdown
 								style='border flex flex-col rounded items-center px-4 mt-2'
-								endTime={time.getUpcomingMidnight()}
+								endTime={time.getNextThursdayMidnightUTC()}
 								updateUserData={updateUserData}
 								userData={userData}
-								type='daily'
-							/>
-							<Countdown
-								style='border flex flex-col rounded items-center px-4 mt-2'
-								endTime={eventTime}
-								updateUserData={updateUserData}
-								userData={userData}
-								type='event'
-								name={eventName}
-								eventStarting={eventStarting}
+								type='weekly'
 							/>
 						</div>
 
 						<u className='flex justify-center mt-2 w-1/3'>
-							{selectedCharacterData.name}'s Dailies
+							{selectedCharacterData.name}'s Weeklies
 						</u>
 						<button
 							className='border rounded ml-auto h-8 w-32 mt-2'
@@ -114,7 +100,7 @@ const Daiies: React.FC = () => {
 				</div>
 				<div className='flex flex-wrap justify-center gap-8 mt-2'>
 					<TaskSection
-						taskData={selectedCharacterData.dailies}
+						taskData={selectedCharacterData.weeklies}
 						charId={selectedCharacterData.id}
 						updateData={updateUserData}
 					/>
@@ -125,11 +111,11 @@ const Daiies: React.FC = () => {
 					toggleModalStatus={toggleModalStatus}
 					selectedCharDataId={selectedCharacterData.id}
 					userData={userData}
-					type='dailies'
+					type='weeklies'
 				/>
 			) : null}
 		</div>
 	);
 };
 
-export default Daiies;
+export default Weeklies;

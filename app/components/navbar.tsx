@@ -17,11 +17,11 @@ const Navbar: React.FC = () => {
 						Dailies
 					</a>
 				</li>
-				{/* <li>
-					<a className={linkStyle} href='/Weeklies'>
+				<li>
+					<a className={linkStyle} href='/weeklies'>
 						Weeklies
 					</a>
-				</li> */}
+				</li>
 			</ul>
 		</nav>
 	);

@@ -30,6 +30,33 @@ import shangrila from '@/public/static/shangrila.webp';
 import arteria from '@/public/static/arteria.webp';
 import carcion from '@/public/static/carcion.webp';
 import erdaRequest from '@/public/static/erdasRequest.webp';
+import solErdaBooster from '@/public/static/erdaFrag.webp';
+import akechi from '@/public/static/akechi.webp';
+import blackMage from '@/public/static/blackMage.webp';
+import cygnus from '@/public/static/cygnus.webp';
+import damien from '@/public/static/damien.webp';
+import dNell from '@/public/static/dNell.webp';
+import gloom from '@/public/static/gloom.webp';
+import hilla from '@/public/static/hilla.webp';
+import kaling from '@/public/static/kaling.webp';
+import kalos from '@/public/static/kalos.webp';
+import lotus from '@/public/static/lotus.webp';
+import lucid from '@/public/static/lucid.webp';
+import papulatus from '@/public/static/papulatus.webp';
+import pierre from '@/public/static/pierre.webp';
+import pNo from '@/public/static/pNo.webp';
+import seren from '@/public/static/seren.webp';
+import slime from '@/public/static/slime.webp';
+import vHilla from '@/public/static/vHilla.webp';
+import vonBon from '@/public/static/vonBon.webp';
+import will from '@/public/static/will.webp';
+import zakum from '@/public/static/zakum.webp';
+import erdaSpectrum from '@/public/static/erdaSpectrum.png';
+import esferaGuradian from '@/public/static/esferaGuardian.png';
+import hungryMuto from '@/public/static/hungryMuto.png';
+import midnightChaser from '@/public/static/midnightChaser.png';
+import ranheimDefense from '@/public/static/ranheimDefense.png';
+import spiritSaviour from '@/public/static/spiritSaviour.png';
 
 export type TaskGroupType = 'dailies' | 'weeklies';
 
@@ -43,7 +70,6 @@ export type BaseTask = {
 export type TaskGroups = {
 	taskGroupName: string;
 	tasks: BaseTask[];
-	numHidden: number;
 };
 
 export type TaskData = {
@@ -112,7 +138,6 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
-			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Tasks',
@@ -165,8 +190,13 @@ const DEFAULTDAILIES: TaskData = {
 					hidden: false,
 					checked: false,
 				},
+				{
+					name: 'Sol Erda Booster',
+					image: solErdaBooster,
+					hidden: false,
+					checked: false,
+				},
 			],
-			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Arcane River',
@@ -226,7 +256,6 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
-			numHidden: 0,
 		},
 		{
 			taskGroupName: 'Grandis',
@@ -274,10 +303,198 @@ const DEFAULTDAILIES: TaskData = {
 					checked: false,
 				},
 			],
-			numHidden: 0,
 		},
 	],
 	taskGroupType: 'dailies',
+};
+
+const DEFAULTWEEKLIES: TaskData = {
+	taskGroups: [
+		{
+			taskGroupName: 'Bosses',
+			tasks: [
+				{
+					name: 'Hilla',
+					image: hilla,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Pink Bean',
+					image: pinkBean,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Cygnus',
+					image: cygnus,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Zakum',
+					image: zakum,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Pierre',
+					image: pierre,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Von Bon',
+					image: vonBon,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Crimson Queen',
+					image: crimsonQueen,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Papulatus',
+					image: papulatus,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Vellum',
+					image: vellum,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Magnus',
+					image: magnus,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Lotus',
+					image: lotus,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Damien',
+					image: damien,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Akechi Mitsuhide',
+					image: akechi,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Gaurdian Angel Slime',
+					image: slime,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Lucid',
+					image: lucid,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Will',
+					image: will,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Gloom',
+					image: gloom,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Verus Hilla',
+					image: vHilla,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Darknell',
+					image: dNell,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Seren',
+					image: seren,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Kalos',
+					image: kalos,
+					hidden: false,
+					checked: false,
+				},
+				{
+					name: 'Kaling',
+					image: kaling,
+					hidden: false,
+					checked: false,
+				},
+			],
+		},
+		{
+			taskGroupName: 'Arcane River',
+			tasks: [
+				{
+					name: 'Erda Spectrum',
+					image: erdaSpectrum,
+					checked: false,
+					hidden: false,
+				},
+				{
+					name: 'Hungry Muto',
+					image: hungryMuto,
+					checked: false,
+					hidden: false,
+				},
+				{
+					name: 'Midnight Chaser',
+					image: midnightChaser,
+					checked: false,
+					hidden: false,
+				},
+				{
+					name: 'Ranheim Defense',
+					image: ranheimDefense,
+					checked: false,
+					hidden: false,
+				},
+				{
+					name: 'Spirit Saviour',
+					image: spiritSaviour,
+					checked: false,
+					hidden: false,
+				},
+			],
+		},
+		{
+			taskGroupName: 'Biweekly',
+			tasks: [
+				{
+					name: 'Black Mage',
+					image: blackMage,
+					checked: false,
+					hidden: false,
+				},
+			],
+		},
+	],
+	taskGroupType: 'weeklies',
 };
 
 const DEFAULTUSERDATA: UserData = {
@@ -286,7 +503,7 @@ const DEFAULTUSERDATA: UserData = {
 			id: uuidv4(),
 			name: 'Default',
 			dailies: DEFAULTDAILIES,
-			weeklies: DEFAULTDAILIES,
+			weeklies: DEFAULTWEEKLIES,
 			selected: true,
 		},
 	],
