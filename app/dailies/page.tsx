@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import CharacterSelection from '../components/CharacterNameSelection';
-import TaskSection from '../components/taskSection/TaskSection';
-import AddEditModal from '../components/addEditModal/AddEditModal';
+import CharacterSelection from '@/app/components/CharacterNameSelection';
+import TaskSection from '@/app/components/taskSection/TaskSection';
+import AddEditModal from '@/app/components/addEditModal/AddEditModal';
 import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
 import Countdown from '@/app/components/Countdown';
-import timeHelper from '../helpers/time';
-import { uncheckTasks } from '../helpers/dataOperations';
+import timeHelper from '@/app/helpers/time';
+import { uncheckTasks } from '@/app/helpers/dataOperations';
 
 const Daiies: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
