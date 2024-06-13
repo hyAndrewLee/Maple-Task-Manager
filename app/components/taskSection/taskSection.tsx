@@ -18,10 +18,11 @@ const TaskSection: React.FC<TaskSectionProp> = ({
 		for (const sectionData of taskData.taskGroups) {
 			const sectionName = sectionData.taskGroupName;
 
+			//TODO
 			// Hides section if all are hidden
-			if (sectionData.numHidden === sectionData.tasks.length) {
-				continue;
-			}
+			// if (sectionData.numHidden === sectionData.tasks.length) {
+			// 	continue;
+			// }
 
 			// Must pass idx to modify task status in case there are duplicate names
 			const sectionTasks = sectionData.tasks.map((task, idx) => {
