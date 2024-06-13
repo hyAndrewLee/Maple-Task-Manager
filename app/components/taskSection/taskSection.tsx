@@ -1,6 +1,5 @@
 import { TaskData, UserData } from '@/app/constants/defaults';
-import IndividualTask from './individualTask';
-
+import IndividualTask from './IndividualTask';
 
 type TaskSectionProp = {
 	taskData: TaskData;

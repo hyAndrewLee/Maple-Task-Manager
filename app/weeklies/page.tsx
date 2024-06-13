@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import CharacterSelection from '../components/CharacterNameSelection';
-import TaskSection from '../components/taskSection/taskSection';
+import TaskSection from '../components/taskSection/TaskSection';
 import AddEditModal from '../components/addEditModal/AddEditModal';
 import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
 import Countdown from '@/app/components/Countdown';
 import timeHelper from '../helpers/time';
-import { uncheckTasks } from '../helpers/checkboxToggle';
+import { uncheckTasks } from '../helpers/dataOperations';
 
 const Weeklies: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import timeHelper, { CountdownType } from '../helpers/time';
 import { UserData } from '../constants/defaults';
-import { uncheckTasks } from '../helpers/checkboxToggle';
+import { uncheckTasks } from '../helpers/dataOperations';
 
 type CountdownProp = {
 	endTime: Date;
