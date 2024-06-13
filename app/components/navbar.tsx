@@ -7,11 +7,11 @@ const Navbar: React.FC = () => {
 			<a href='/'>MTM</a>
 			<div className='border h-4/6 mx-4'></div>
 			<ul className='flex items-center h-16 gap-4'>
-				{/* <li>
+				<li>
 					<a className={linkStyle} href='/timer'>
 						Timer
 					</a>
-				</li> */}
+				</li>
 				<li>
 					<a className={linkStyle} href='/dailies'>
 						Dailies

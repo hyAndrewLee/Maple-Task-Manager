@@ -1,5 +1,5 @@
 import timeHelper from './time';
-import { IndividualTaskProp } from '../components/taskSection/individualTask';
+import { IndividualTaskProp } from '../components/taskSection/IndividualTask';
 import { TaskGroups, UserData } from '../constants/defaults';
 
 const checkedBox = ({

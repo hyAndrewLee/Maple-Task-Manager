@@ -1,5 +1,5 @@
 import { BaseTask, TaskGroupType, UserData } from '@/app/constants/defaults';
-import { checkedBox } from '@/app/helpers/checkboxToggle';
+import { checkedBox } from '@/app/helpers/dataOperations';
 import Image from 'next/image';
 
 export type IndividualTaskProp = {
