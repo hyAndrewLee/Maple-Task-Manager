@@ -30,7 +30,7 @@ const AddEditModal: React.FC<AddEditModal> = ({
 			userData.characters.find(
 				(character: CharacterData) => (character.id = selectedCharDataId)
 			)![type].taskGroups,
-		[userData, selectedCharDataId]
+		[userData, selectedCharDataId, type]
 	);
 
 	const handleGroupClick = (index: number) => {
@@ -43,27 +43,27 @@ const AddEditModal: React.FC<AddEditModal> = ({
 
 	// Create accordion component so you can use it in timer as well.
 	// We'll keep track of both group and item state in this file because we're going to nest the items into the accordion component.
+	// TODO
+	// const TaskGroupComponentArray = () =>
+	// 	useMemo(() => {
+	// 		const charData = selectedCharData();
 
-	const taskGroupComponentArray = () =>
-		useMemo(() => {
-			const charData = selectedCharData();
+	// 		return charData.map((taskGroup, idx) => {
+	// 			const marginTop = idx === 0 ? 'mt-4' : '';
 
-			return charData.map((taskGroup, idx) => {
-				const marginTop = idx === 0 ? 'mt-4' : '';
-
-				return (
-					<div className={marginTop}>
-						<TaskSection
-							taskGroup={taskGroup}
-							isLastGroup={idx === charData.length - 1}
-							idx={idx}
-							isActive={activeGroupIndex === idx}
-							handleGroupClick={handleGroupClick}
-						/>
-					</div>
-				);
-			});
-		}, [userData, activeGroupIndex]);
+	// 			return (
+	// 				<div className={marginTop}>
+	// 					<TaskSection
+	// 						taskGroup={taskGroup}
+	// 						isLastGroup={idx === charData.length - 1}
+	// 						idx={idx}
+	// 						isActive={activeGroupIndex === idx}
+	// 						handleGroupClick={handleGroupClick}
+	// 					/>
+	// 				</div>
+	// 			);
+	// 		});
+	// 	}, [userData, activeGroupIndex]);
 
 	const listOfCharacters = () => {
 		const characterList = [];

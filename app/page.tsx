@@ -4,7 +4,7 @@ const Home: React.FC = () => {
 			<div className='border rounded max-w-home-container min-h-task-content-box px-4 pt-2'>
 				<p className='pb-4'>
 					Welcome to Maple Task Manager, a fully customizable daily and weekly
-					tracker with a countdown timer that resets and pings when it's
+					tracker with a countdown timer that resets and pings when it&#39;s
 					completed its countdown.
 				</p>
 				<p className='pb-4'>

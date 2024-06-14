@@ -28,6 +28,7 @@ const TaskSection: React.FC<TaskSectionProp> = ({
 			const sectionTasks = sectionData.tasks.map((task, idx) => {
 				return (
 					<IndividualTask
+						key={`${task}-${idx}`}
 						task={task}
 						groupName={sectionData.taskGroupName}
 						taskIdx={idx}

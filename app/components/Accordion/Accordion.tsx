@@ -28,21 +28,27 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
 		/**
 		 * Reformat time and create a countdown for the timers
 		 */
+
 		if ('name' in ele) {
 			return (
-				<div className='border'>
+				<div className='border' key={`${ele.name}-${idx}`}>
 					<div>{ele.name}</div>
 				</div>
 			);
 		} else {
 			const items = ele.tasks.map((item, idx) => {
 				return (
-					<NestedAccordion data={item} isGroupActive={isActive} idx={idx} />
+					<NestedAccordion
+						data={item}
+						isGroupActive={isActive}
+						idx={idx}
+						key={`${item}-${idx}`}
+					/>
 				);
 			});
 
 			return (
-				<div>
+				<div key={`${ele}-${idx}`}>
 					<div
 						className={`border ${margin} select-none`}
 						onClick={() => handleGroupClick(idx)}

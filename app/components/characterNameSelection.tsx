@@ -1,9 +1,9 @@
-type CharacterSelectionProps = {
+type CharacterNameSelectionProps = {
 	name: string;
 	selected: boolean;
 };
 
-const CharacterSelection: React.FC<CharacterSelectionProps> = ({
+const CharacterNameSelection: React.FC<CharacterNameSelectionProps> = ({
 	name,
 	selected,
 }) => {
@@ -15,4 +15,4 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
 	);
 };
 
-export default CharacterSelection;
+export default CharacterNameSelection;

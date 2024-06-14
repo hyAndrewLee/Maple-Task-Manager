@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import lootAudio from '@/public/audio/loot.mp3';
 import couponAudio from '@/public/audio/coupon.mp3';
 import buffAudio from '@/public/audio/buff.mp3';
@@ -40,7 +40,7 @@ const Timer: React.FC<TimerProps> = ({
 	const [pausedLoot, setPasuedLoot] = useState(false);
 	const [resetLoot, setResetLoot] = useState(false);
 
-	const resetAll = () => {
+	const resetAll = useCallback(() => {
 		setActiveAll(false);
 		setPasuedLoot(false);
 
@@ -59,7 +59,7 @@ const Timer: React.FC<TimerProps> = ({
 			setBuffThirtyDurationMinute(30);
 			setBuffThirtyDurationSecond(0);
 		}, 1000);
-	};
+	}, [couponDurationMinute, lootDurationMinute, lootDurationSecond]);
 
 	const pauseResumeLoot = () => {
 		if (activeAll) {
@@ -242,6 +242,11 @@ const Timer: React.FC<TimerProps> = ({
 		buffThirtyDurationSecond,
 		startingLootMinute,
 		startingLootSecond,
+		duration,
+		enableTen,
+		enableThirty,
+		enableTwenty,
+		resetAll,
 	]);
 
 	const allDurationTime = formatTime(

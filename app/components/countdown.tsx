@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import timeHelper, { CountdownType } from '../helpers/time';
 import { UserData } from '../constants/defaults';
 import { uncheckTasks } from '../helpers/dataOperations';
@@ -37,6 +37,8 @@ const Countdown: React.FC<CountdownProp> = ({
 		eventStarting: eventStarting ?? false,
 	});
 
+	const ref = useRef(endTime);
+
 	useEffect(() => {
 		const time = new timeHelper();
 
@@ -56,9 +58,9 @@ const Countdown: React.FC<CountdownProp> = ({
 			if (shouldResetCountdown) {
 				if (type === 'event') {
 					const eventInfo = time.getNextEventInfo();
-					endTime = eventInfo.eventTime;
+					ref.current = eventInfo.eventTime;
 					const newEndTimeDifference = Math.abs(
-						new Date().getTime() - endTime.getTime()
+						new Date().getTime() - ref.current.getTime()
 					);
 
 					updatedCountdownInfo.remainingTime = time.formatTime(
@@ -70,10 +72,10 @@ const Countdown: React.FC<CountdownProp> = ({
 				}
 
 				if (type === 'daily') {
-					endTime = time.getUpcomingMidnight();
+					ref.current = time.getUpcomingMidnight();
 
 					const newEndTimeDifference = Math.abs(
-						new Date().getTime() - endTime.getTime()
+						new Date().getTime() - ref.current.getTime()
 					);
 
 					updatedCountdownInfo.remainingTime = time.formatTime(
@@ -89,7 +91,7 @@ const Countdown: React.FC<CountdownProp> = ({
 		return () => {
 			clearInterval(countdownInterval);
 		};
-	}, []);
+	}, [countdownInfo, endTime, type, updateUserData]);
 
 	const eventHighlight = countdownInfo.eventStarting
 		? ' border-green-400 shadow-[inset_0_0_12px_rgb(134,239,172)]'
