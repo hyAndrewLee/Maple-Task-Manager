@@ -12,7 +12,7 @@ const Weeklies: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userData, setUserData] = useState<UserData>();
 
-	const time = new timeHelper();
+	const time = useMemo(() => new timeHelper(), []);
 
 	useEffect(() => {
 		const localStorageUserData = userData ?? localStorage.getItem('userData');
@@ -43,7 +43,7 @@ const Weeklies: React.FC = () => {
 		};
 		window.addEventListener('keydown', close);
 		return () => window.removeEventListener('keydown', close);
-	}, []);
+	}, [time, userData]);
 
 	const updateUserData = (updatedData: UserData) => {
 		setUserData(updatedData);
@@ -85,7 +85,7 @@ const Weeklies: React.FC = () => {
 						</div>
 
 						<u className='flex justify-center mt-2 w-1/3'>
-							{selectedCharacterData.name}'s Weeklies
+							{selectedCharacterData.name}&#39;s Weeklies
 						</u>
 						<button
 							className='border rounded ml-auto h-8 w-32 mt-2'

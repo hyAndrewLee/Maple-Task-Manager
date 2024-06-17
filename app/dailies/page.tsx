@@ -1,18 +1,18 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import CharacterSelection from '../components/CharacterNameSelection';
-import TaskSection from '../components/taskSection/TaskSection';
-import AddEditModal from '../components/addEditModal/AddEditModal';
+import CharacterSelection from '@/app/components/CharacterNameSelection';
+import TaskSection from '@/app/components/taskSection/TaskSection';
+import AddEditModal from '@/app/components/addEditModal/AddEditModal';
 import { DEFAULTUSERDATA, UserData } from '@/app/constants/defaults';
 import Countdown from '@/app/components/Countdown';
-import timeHelper from '../helpers/time';
-import { uncheckTasks } from '../helpers/dataOperations';
+import timeHelper from '@/app/helpers/time';
+import { uncheckTasks } from '@/app/helpers/dataOperations';
 
 const Daiies: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userData, setUserData] = useState<UserData>();
 
-	const time = new timeHelper();
+	const time = useMemo(() => new timeHelper(), []);
 	const { eventTime, eventName, eventStarting } = time.getNextEventInfo();
 
 	useEffect(() => {
@@ -48,7 +48,7 @@ const Daiies: React.FC = () => {
 		};
 		window.addEventListener('keydown', close);
 		return () => window.removeEventListener('keydown', close);
-	}, []);
+	}, [time, userData]);
 
 	const updateUserData = (updatedData: UserData) => {
 		setUserData(updatedData);
@@ -99,7 +99,7 @@ const Daiies: React.FC = () => {
 						</div>
 
 						<u className='flex justify-center mt-2 w-1/3'>
-							{selectedCharacterData.name}'s Dailies
+							{selectedCharacterData.name}&#39;s Dailies
 						</u>
 						<button
 							className='border rounded ml-auto h-8 w-32 mt-2'

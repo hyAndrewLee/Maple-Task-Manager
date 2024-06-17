@@ -31,6 +31,7 @@ const TaskSection: React.FC<TaskSectionProps> = ({
 				task={task}
 				handleItemClick={handleItemClick}
 				idx={idx}
+				key={`${task}-${idx}`}
 			/>
 		));
 	};
