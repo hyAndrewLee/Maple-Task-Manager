@@ -1,5 +1,6 @@
 import Navbar from '@/app/components/Navbar';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
 	title: 'Maple Task Manager',
@@ -16,6 +17,7 @@ export default function RootLayout({
 			<body>
 				<Navbar />
 				{children}
+				<Analytics />
 			</body>
 		</html>
 	);
