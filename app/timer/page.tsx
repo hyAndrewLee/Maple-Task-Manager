@@ -1,5 +1,5 @@
 "use client";
-
+// TODO: Refactor whole endpoint - state and timers should be dynamic
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import Head from "next/head";
